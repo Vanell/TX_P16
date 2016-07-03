@@ -1,0 +1,6 @@
+\beamer@endinputifotherversion {3.33pt}
+\beamer@sectionintoc {1}{Electronique}{3}{0}{1}
+\beamer@sectionintoc {2}{Montage du banc d'essai}{8}{0}{2}
+\beamer@sectionintoc {3}{Am\IeC {\'e}liorations futures}{11}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{13}{0}{4}
+\beamer@sectionintoc {5}{Questions ?}{14}{0}{5}
