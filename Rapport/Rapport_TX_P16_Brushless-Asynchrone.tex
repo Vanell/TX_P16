@@ -97,12 +97,12 @@ Enfin M. Noailles pour l'aide apporter pour la réalisation de ce projet.
 
 \section*{Préambule}
 
-Le projet a consisté à la réalisation d'un banc d'essai composé d'un moteur Brushless et d'un moteur asynchrone dans le but de réaliser des asservissements suivant différentes variables telle que la vitesse d'un des moteurs ou le couple d'un des moteurs. Ce projet a déjà fait l'objet de plusieurs TX sur différents points. La réalisation du pilotage du moteurs asynchrone, la réalisation du pilotage du moteurs Brushless et enfin le banc en lui-même. Lorsque que j'ai pris ce projet, la mécanique était presque complète et une partie de l’électronique avait été réalisé, il me restait donc à rassembler les différents résultats des TX précédentes pour pouvoir finaliser le banc d'essai dans son ensemble. Cependant la partie électrique du banc devait être réalisée à 100\%. Il reste donc beaucoup de travail avant que le banc soit opérationel.
+Le projet a consisté à la réalisation d'un banc d'essai composé d'un moteur Brushless et d'un moteur asynchrone dans le but de réaliser des asservissements suivants différentes variables telles que la vitesse d'un des moteurs ou le couple d'un des moteurs. Les deux moteurs sont en face à face et accoupler. Ce projet a déjà fait l'objet de plusieurs TX sur différents points. La réalisation du pilotage du moteur asynchrone, la réalisation du pilotage du moteur Brushless et enfin le banc en lui-même. Lorsque que j'ai pris ce projet, la mécanique était presque complète et une partie de l'électronique avait été réalisé, il me restait donc à rassembler les différents résultats des TX précédentes pour pouvoir finaliser le banc d'essai dans sont ensemble. Cependant, la partie électrique du banc devait être réalisée à 100\%. Il reste donc beaucoup de travail avant que le banc soit opérationnel.
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Description du banc d'essai}
+\section{Description du banc d'essai / Bilan}
 Le banc d'essai est composé de 3 éléments :
 
 \begin{itemize}
@@ -113,12 +113,19 @@ Le banc d'essai est composé de 3 éléments :
 
 \subsection{Le banc d'essai}
 
-Le banc d'essai est composé d'un moteur asynchrone et d'un moteur Brushless. Ils sont disposés de telle sorte qu'il sont en vis-à-vis. Ils sont mécaniquement liées par le biais du châssis mais aussi par un accouplement rigide. Ce montage permette de piloter l'un des 2 moteurs, et l'autre joue le rôle de perturbateur ou de simulateur d'inertie.
+Le banc d'essai est composé d'un moteur asynchrone et d'un moteur Brushless. Ils sont disposés de telle sorte qu'il soit en vis-à-vis. Ils sont mécaniquement liées par le biais du châssis mais, aussi par un accouplement flexible. Ce montage permet de piloter l'un des 2 moteurs, et l'autre joue le rôle de perturbateur ou de simulateur d'inertie.
 
-\paragraph{Mesure \\}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=350px]{banc_essai_desc.jpg}
+    \caption{Banc d'essai}
+\end{figure}
+
+\paragraph{Mesure de vitesse \\}
 
 La mesure de vitesse est faite grâce au capteur à effet hall du moteur de Brushless.
-\\
+
+\paragraph{Mesure de couple \\}
 La mesure de couple est fait par l'intermédiaire d'un capteur de force placé avec un bras de levier.\\
 
 \begin{figure}[!h]
@@ -128,34 +135,36 @@ La mesure de couple est fait par l'intermédiaire d'un capteur de force placé a
 \end{figure}
 \newpage
 
-Le capteur mesure une force de +/- 500 N, le bras de levier est fait de telle sorte que lorsque un moteur est à pleine puissance le capteur de force est presque à sa limite. Ce qui permet de mesurer la puissance mécanique développé par un moteur, dans les 2 sens de rotation. Nous verrons plus tard le traitement des données du capteur.
+Le capteur mesure une force de $+/- 500 N$, le bras de levier est fait de telle sorte que lorsque un moteur est à pleine puissance le capteur de force est presque à sa limite. Ce qui permet de mesurer la puissance mécanique développée par un moteur, dans les 2 sens de rotation. Nous verrons plus tard le traitement des données du capteur.
 
 \subsection{L'armoire électrique}
 
-Celle-ci n'était pas encore réalisé. Pour la faire je me suis inspirer des armoires qui déjà réaliser pour d'autre banc d'essai. Celle-ci était composé d'un seul variateur pour un moteur asynchrones mais toutes la chaine de sécurité et de puissance pouvait être adapté pour le projet. Nous allons voire plus tard les ajout et modification.
+Celle-ci n'était pas encore réalisé. Pour la faire je me suis inspiré des armoires qui ont déjà été réalisé pour d'autre banc d'essai. Celle-ci était composé d'un seul variateur pour un moteur asynchrones mais toutes la chaîne de sécurité et de puissance pouvait être adapté pour le projet. Nous allons voir plus tard les ajout et modification.
 
 \subsection{Le pupitre de commande}
 Le pupitre intègre toutes l'électronique de commande, l'ensemble est piloté par une arduino. Il possède aussi une façade avec des potentiomètre, des voyant et des boutons. Pour l'instant le choix du nombre de bouton, potentiomètre et voyant reste indéfinie.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 
 \section{Électronique}
 
-L'arduino commande l'ensemble des fonctions du banc d'essai, qui sont le contrôle des 2 moteurs. La commande des moteurs ce fait par l'intermédiaire du variateur pour le moteurs asynchrones et par la carte de commande du moteurs Brushless. 
+L'arduino commande l'ensemble des fonctions du banc d'essai, qui sont le contrôle des 2 moteurs. La commande des moteurs ce fait par l'intermédiaire du variateur pour le moteur asynchrones et par la carte de commande du moteur Brushless. 
 
 \subsection{Commande asynchrones}
 
 \paragraph{Commande de vitesse \\}
-Le moteur asynchrones est piloté en vitesse par une commande 0-10V analogique. L'arduino possède des sorties digital et pour certaine de ces sortie un PWM 0-5V peut-être générer. Il me faut donc transformer le PWM 0-5V en 0-10V analogique. Suite à une petit recherche sur internet j'ai trouvé plusieurs exemple pour réaliser la transformation.\\
+Le moteur asynchrones est piloté en vitesse par une commande $0-10V$ analogique. L'arduino possède des sorties digital et pour certaine de ces sorties un PWM $0-5V$ peut-être généré. Il me faut donc transformer le PWM $0-5V$ en $0-10V$ analogique. Suite à une petite recherche sur internet j'ai trouvé plusieurs exemples pour réaliser la transformation.
+\\
 \\
 \begin{figure}[!h]
     \centering
     \includegraphics[width=350px]{electronique_conv_pwm_tension.jpg}
     \caption{Schéma de base}
 \end{figure}
-
-Le principe du montage est de lissé une première fois le signal par un RC, de l'amplifié et par finir de le lissé par deux RC consécutif. Le système répond instantanément au changement du signal d'entrée.
+\FloatBarrier
+Le principe du montage est de lisser une première fois le signal par un RC, de l'amplifier et par finir de le lisser par deux RC consécutif. Le système répond instantanément au changement du signal d'entrée (par une appréciation personnelle).
 
 
 \begin{figure}[!h]
@@ -163,39 +172,43 @@ Le principe du montage est de lissé une première fois le signal par un RC, de 
     \includegraphics[width=500px]{schema_digt_anolog.png}
     \caption{Schéma de câblage finale}
 \end{figure}
-
+\FloatBarrier
 \begin{figure}[!h]
     \centering
     \includegraphics[width=150px]{IMG_20160629_203955.jpg}
     \caption{Montage sur breadboard}
 \end{figure}
-
+\FloatBarrier
 \paragraph{Commande de marche/arrêt \& sens\\}
 
-Les entrées de marche/arrêt et de sens requière un signal bas à 0V et un signal haut à 24V. Le variateur génère sont propre 24VDC, il suffit donc de récupérer cette tension puis par le biais de transistor BC547, piloter les entrées du variateur voulut.
+Les entrées de marche/arrêt et de sens requière un signal bas à 0V et un signal haut à $24V$. Le variateur génère son propre $24VDC$, il suffit donc de récupérer cette tension puis par le biais de transistor $BC547$, piloter les entrées du variateur voulut.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=350px]{schema_pilotage_asynchrone.png}
     \caption{Schéma de pilotage asynchrone}
 \end{figure}
-
+\FloatBarrier
 
 \subsection{Commande Brushless}
 
 \paragraph{Commande de vitesse \\}
 
-La commande de vitesse pour le contrôleur Brushless peut être du $0-10V$ analogique ou du PWM. La commande se fait par le biais du PWM généré par l'arduino.
+La commande de vitesse pour le contrôleur Brushless peut-être du $0-10V$ analogique ou du PWM. La commande se fait par le biais du PWM généré par l'arduino.
 
 \paragraph{Commande Marche/Arrêt \& Sens \\}
 
-Les entrées pour le contrôleur Brushless ont des niveaux logique compatible avec l'arduino. État 0 : $<2V$ ; état 1 : $<4V$. Donc pas besoin d'électronique supplémentaire pour la commande du moteur Brushless\\
+Les entrées pour le contrôleur Brushless ont des niveaux logique compatible avec l'arduino. État 0 : $<2V$ ; état 1 : $>4V$. Donc pas besoin d'électronique supplémentaire pour la commande du moteur Brushless, seule les sortie de l'arduino suffise.\\
 \\
-La partie commande est donc complète, nous voulons commander les moteurs en boucle fermé il nous faut donc les retours vers l'arduino des signaux de vitesse et de force.
+La partie commande des deux moteurs est donc complète. Nous voulons commander les moteurs en boucle fermé il nous faut donc les retours vers l'arduino des signaux de vitesse et de force.
 
-\paragraph{Entrée encoder \& direction}
+\subsection{Retour vitesse et force}
 
-Pour connaître la vitesse des moteurs je récupère la sortie encoder donnée par le controleurs brushless, de même pour le sens de rotation réel. Cependant un petite adaptation doit être réaliser, les tensions fournit ne corresponde $V_{max} = 28,5V$. Un petit pont diviseur de tension est réaliser.
+\subsubsection{Brushless}
+
+\paragraph{Entrée encoder \& direction \\}
+
+Pour connaître la vitesse des moteurs je récupère la sortie encoder donnée par le contrôleurs Brushless, de même pour le sens de rotation réel. Cependant une petite adaptation doit être réaliser, les tensions fournit ne corresponde $V_{max} = 28,5V$. Un pont diviseur de tension est réalisé.
 
 \begin{figure}[!h]
     \centering
@@ -214,16 +227,16 @@ Pour connaître la vitesse des moteurs je récupère la sortie encoder donnée p
 \end{equation}
 
 
-\subsection{Capteur de force}
+\subsubsection{Capteur de force}
 
 Pour cette partie je me suis basé sur la TX de Renhai PU.\\
 J'utilise un capteur de force FN3060. Le capteur fonctionne avec un pont de wheatstone. \\
 \\
-Suivant la documentation le capteur doit être alimenté en $10V$ et le signal de sortie est fonction de cette alimentation $2mV/V$. Donc pour une alimentation de $10V$ le signal de sortie est donc compris entre $ [-20mV ; +20mV] $. Pour une force de 500N nous avons donc en sortie une tension de 20mV. Ce qui est extrêmement faible et pas lisible pour une arduino (par défaut la résolution de l'arduino en lecture d'un signal analogique : $\frac{5V}{1024 bit} $). De plus, le signal peut être aussi négatif. Nous ne pouvons nous restreindre à un seul sens de rotation des moteurs pour nous permettre de mesurer un couple c'est pour quoi il faut traiter le signal du capteur.\\
+Suivant la documentation le capteur doit être alimenté en $10V$ et le signal de sortie est fonction de cette alimentation $2mV/V$. Donc pour une alimentation de $10V$ (tension d'alimentation maximum) le signal de sortie est donc compris entre $ [-20mV ; +20mV] $. Pour une force de $500N$ nous avons donc en sortie une tension de $20mV$. Ce qui est extrêmement faible et pas lisible pour une arduino (par défaut la résolution de l'arduino en lecture d'un signal analogique : $\frac{5V}{1024 bit} $). De plus, le signal peut être aussi négatif.\\
 \\
-Dans la TX de Renhai PU, il à réalisé sur breadboard un montage pour permettre la lecture du signal par une arduino. J'ai repris ce montage puis testé. Il c'est avéré qu'il y avait quelque erreur de câblage, cependant, je n'ai pas réussi à faire fonctionner le montage complait. J'ai donc repris la démarche qu'il avait entrepris mais en essayant de dissocier un maximum les étapes.\\
+Dans la TX de Renhai PU, il à réalisé sur breadboard un montage pour permettre la lecture du signal par une arduino. J'ai repris ce montage puis testé. Il c'est avéré qu'il y avait quelque erreur de câblage, cependant, je n'ai pas réussi à faire fonctionner le montage complet. J'ai donc repris la démarche qu'il avait entrepris mais en essayant de dissocier un maximum les étapes.\\
 \\
-Le but du montage est de récupéré un signal lisible par l'arduino : Signal positif entre 0-5V. Mon signal d'entrée peut être négatif et positif, je doit donc passé la partie négative en positive. Cependant comparé à Renhai PU, la lecture du signal par l'arduino se fera par 3 entrées : signal positif, signa négatif (mais redresser), sens. Le signal sens est redondant par rapport au 2 autres mais il y a cependant un seuil non nul lorsque le capteur 	est repos.\\
+Le but du montage est de récupéré un signal lisible par l'arduino : Signal positif entre 0-5V. Mon signal d'entrée peut être négatif et positif, je doit donc passer la partie négative en positive. Cependant comparé à Renhai PU, la lecture du signal par l'arduino se fera par 3 entrées : signal positif, signa négatif (mais redresser), sens. Le signal sens est redondant par rapport au 2 autres mais il y a cependant un seuil non nul lorsque le capteur est repos.\\
 \\
 Le signal doit être amplifié 250 fois ($20mV \rightarrow 5V$). Il sera amplifié en plusieurs étapes. 
 
@@ -363,9 +376,9 @@ Lorsque j'ai pris le projet, la mécanique du banc d'essai n'était pas complèt
 
 \paragraph{Emplacement du capteur de force \\}
 
-Pour réaliser la mesure de couple, un capteur de force placé avec un bras de levier. La fixation du capteur était prévu avec une plaque fixé en flexion elle même fixer sur le châssis. La décision à été prise de rehausser le châssis et de fixer le capteur directement sur le châssis (par l'intermédiaire d'une plaque d'adaptation. Ce qui permette de concentrer les efforts directement dans le châssis, qui peut être considérer infiniment rigide par rapport aux efforts maximum ($+/- 500 N$).\\
+Pour réaliser la mesure de couple, un capteur de force placé avec un bras de levier. La fixation du capteur était prévu avec une plaque fixé en flexion elle même fixer sur le châssis. La décision à été prise de rehausser le châssis et de fixer le capteur directement sur le châssis (par l'intermédiaire d'une plaque d'adaptation). Ce qui permette de concentrer les efforts directement dans le châssis, qui peut être considérer infiniment rigide par rapport aux efforts maximum ($+/- 500 N$).\\
 \\
-Une fois la décision prise pour le nouvelle emplacement du capteur de force, l'ensemble du châssis fût finaliser. Les montages mécanique du châssis à été donc terminé.
+Une fois la décision prise pour le nouvelle emplacement du capteur de force, l'ensemble du châssis fût finalisé. Le montage mécanique du châssis est donc terminé.
 
 \begin{figure}[!h]
     \centering
@@ -377,26 +390,26 @@ Une fois la décision prise pour le nouvelle emplacement du capteur de force, l'
 
 \subsubsection{Banc d'essai}
 
-Pour une facilité de déplacement et pour permettre de dissocier l'armoire du banc, une prise pour la partie puissance à été mise, cependant pour l'instant il n'y a pas de prise pour la partie logique. Des goulottes et des borniers sont placé pour plus de propreté. Seule le capteur de force ne passe par par le bornier générale du banc, sont câble est suffisamment long mais aussi pour minimiser des problème d'interférence sur la mesure de force.
+Pour une facilité de déplacement et pour permettre de dissocier l'armoire du banc, une prise pour la partie puissance a été mise, cependant pour l'instant il n'y a pas de prise pour la partie logique. Des goulottes et des borniers sont placés pour plus de propreté. Seul le capteur de force ne pas passe par par le bornier générale du banc, son câble est suffisamment long mais, aussi pour minimiser des problèmes d'interférence sur la mesure de force.
 
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=250px]{IMG_20160628_173723.jpg}
+    \includegraphics[width=200px]{IMG_20160628_173723.jpg}
     \caption{Bornier du banc d'essai}
 \end{figure}
 
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=250px]{IMG_20160628_173711.jpg}
+    \includegraphics[width=200px]{IMG_20160628_173711.jpg}
     \caption{Prise de puissance pour le banc d'essai}
 \end{figure}
 
 \FloatBarrier
 
 \subsubsection{Armoire électrique}
-La réalisation de l'armoire est donc basé sur des armoire déjà fabriqué pour d'autre banc d'essai. Mon armoire comporte en plus la partie sur le Brushless.\\
+La réalisation de l'armoire est donc basé sur des armoires déjà fabriqué pour d'autres banc d'essai. Mon armoire comporte en plus la partie sur le Brushless.\\
 \\
 J'ai apporter quelque modification et ajout :
 
@@ -443,7 +456,7 @@ L'ensemble des éléments sont placé dans l'armoire ,un maximum de rail DIN est
 
 \section{Amélioration futur}
 
-Le banc est fonctionelle mais pas encore complètement fini. Il reste quelque élement à finir.
+Le banc est fonctionnelle mais pas encore complètement fini. Il reste quelque élément à finir.
 
 \begin{itemize}
 	\item Cartériser le banc
@@ -451,13 +464,13 @@ Le banc est fonctionelle mais pas encore complètement fini. Il reste quelque é
 	\item Faire une carte électronique complète
 \end{itemize}
 
-La partie éléctronique devait être alimenter par le biais de l'armoire éléctrique, il manque pour l'instant un régulateur $10VDC$, et un régulateur $+/- 12VDC$.
+La partie électronique devait être alimenter par le biais de l'armoire électrique, il manque pour l'instant un régulateur $10VDC$, et un régulateur $+/- 12VDC$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 \section{Conclusion}
 
-Le projet est pleinement opérationnelle, et permet au prochain semestre la mise en place de TP pour E03, et pour les semestre d'après les TP EA01 et EQ04. Il reste certe quelque élements pour finir le banc mais il est pour l'instant utilisable.
+Le projet est pleinement opérationnelle et permet au prochain semestre la mise en place de TP pour E03, et pour les semestres d'après les TP EA01 et EQ04. Il reste certes quelques éléments pour finir le banc mais, il est pour l'instant utilisable, pour la compréhension des 2 technologies de moteur présente sur ce banc. Le banc est mécaniquement très simple (les deux moteurs sont en face à face), donc la compréhension de l'influence des moteurs sur l'un et l'autre est très simple. 
 
 
 \newpage
@@ -555,6 +568,47 @@ Le projet est pleinement opérationnelle, et permet au prochain semestre la mise
 	\item -Signal Blanc
 \end{itemize}
 
+\newpage
 
+\subsection{Annexe IV : Bornier du banc d'essai}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=350px]{bornier_banc.jpg}
+    \caption{Bornier du banc d'essai}
+\end{figure}
+
+\begin{enumerate}
+	\item Terre
+	\item U - Asynchrone
+	\item V - Asynchrone
+	\item W - Asynchrone
+	\item Phase 1 - Brushless
+	\item Phase 2 - Brushless
+	\item Phase 3 - Brushless
+	\item +10V - Brushless
+	\item GND - Brushless
+	\item Effet Hall 1 (Vert) - Brushless
+	\item Effet Hall 2 (Bleu) - Brushless
+	\item Effet Hall 3 (Jaune) - Brushless
+	\item Arrêt d'urgence
+	\item Arrêt d'urgence
+\end{enumerate}
+
+\newpage
+
+\subsection{Annexe V : Câblage arduino}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[angle=90,width=225px]{arduino_cablage.png}
+    \caption{Câblage arduino}
+\end{figure}
+\FloatBarrier
+\newpage
+
+\subsection{Annexe VI : Liens}
+
+Github : https://github.com/Vanell/TX\_P16
 
 \end{document}  
